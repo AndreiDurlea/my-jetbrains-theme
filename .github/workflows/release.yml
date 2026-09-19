@@ -1,0 +1,101 @@
+name: Release JetBrains Plugin
+
+on:
+  push:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Setup CoreCatalog Deploy Key
+        if: env.CORECATALOG_DEPLOY_KEY != ''
+        uses: webfactory/ssh-agent@v0.9.0
+        env:
+          CORECATALOG_DEPLOY_KEY: ${{ secrets.CORECATALOG_DEPLOY_KEY }}
+        with:
+          ssh-private-key: ${{ secrets.CORECATALOG_DEPLOY_KEY }}
+
+      - name: Checkout CoreCatalog
+        uses: actions/checkout@v4
+        with:
+          repository: 'AndreiDurlea/corecatalog'
+          ssh-key: ${{ secrets.CORECATALOG_DEPLOY_KEY }}
+          path: '.corecatalog'
+
+      - name: CoreCatalog Auto-Bump
+        id: version
+        uses: ./.corecatalog/.github/actions/auto-bump
+        with:
+          source: 'auto'
+
+      - name: Commit Auto-Bumped Version
+        if: steps.version.outputs.should_release == 'true' && steps.version.outputs.auto_bumped == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add package.json gradle.properties 2>/dev/null || true
+          git commit -m "Bump version to ${{ steps.version.outputs.version }} [skip ci]"
+          git push origin ${{ github.ref_name }}
+
+      - name: Build and Package Plugin
+        if: steps.version.outputs.should_release == 'true'
+        run: |
+          chmod +x ./gradlew || true
+          ./gradlew buildPlugin
+
+      - name: Publish GitHub Release
+        if: steps.version.outputs.should_release == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          PACKAGE_FILE=$(find build/distributions -name "*.zip" 2>/dev/null | head -n 1)
+          if [ -z "$PACKAGE_FILE" ]; then
+            PACKAGE_FILE=$(find . -maxdepth 2 -name "*.zip" 2>/dev/null | head -n 1)
+          fi
+          if ! gh release view "$TAG" >/dev/null 2>&1; then
+            gh release create "$TAG" $PACKAGE_FILE --title "Deuterium $TAG" --notes "Release of Deuterium theme $TAG for JetBrains IDEs"
+          else
+            echo "Release $TAG already exists."
+          fi
+
+      - name: Publish to JetBrains Marketplace
+        if: steps.version.outputs.should_release == 'true'
+        continue-on-error: true
+        env:
+          JETBRAINS_MARKETPLACE_TOKEN: ${{ secrets.JETBRAINS_MARKETPLACE_TOKEN }}
+        run: |
+          if [ -n "$JETBRAINS_MARKETPLACE_TOKEN" ]; then
+            for i in 1 2 3; do
+              echo "Publishing to JetBrains Marketplace (attempt $i)..."
+              if ./gradlew publishPlugin -PmarketplaceToken="$JETBRAINS_MARKETPLACE_TOKEN"; then
+                echo "Successfully published to JetBrains Marketplace."
+                break
+              fi
+              echo "Attempt $i failed. Retrying in 10s..."
+              sleep 10
+            done
+          else
+            echo "Skipping JetBrains Marketplace publish: JETBRAINS_MARKETPLACE_TOKEN secret is not set."
+          fi
