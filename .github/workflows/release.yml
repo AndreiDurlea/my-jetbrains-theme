@@ -1,4 +1,4 @@
-name: Release Extension
+name: Release Plugin
 
 on:
   push:
@@ -46,34 +46,7 @@ jobs:
           file: 'package.json'
           commit: 'true'
           package-command: |
-            npm ci
-            npm run build
-            npx -y @vscode/vsce package --no-git-tag-version
+            npm run package
+          package-files: 'dist/*.jar'
           title: 'Deuterium for JetBrains IDEs'
           github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Publish to Open VSX Registry
-        if: steps.release.outputs.should_release == 'true' && env.OPEN_VSX_TOKEN != ''
-        continue-on-error: true
-        env:
-          OPEN_VSX_TOKEN: ${{ secrets.OPEN_VSX_TOKEN }}
-          VSIX: ${{ steps.release.outputs.artifact }}
-        run: |
-          for i in 1 2 3; do
-            echo "Publishing to Open VSX (attempt $i)..."
-            if npx -y ovsx publish "$VSIX" -p "$OPEN_VSX_TOKEN"; then
-              echo "Successfully published to Open VSX."
-              break
-            fi
-            echo "Attempt $i failed. Retrying in 10s..."
-            sleep 10
-          done
-
-      - name: Publish to VS Code Marketplace
-        if: steps.release.outputs.should_release == 'true' && env.VSCE_PAT != ''
-        continue-on-error: true
-        env:
-          VSCE_PAT: ${{ secrets.VSCE_PAT }}
-          VSIX: ${{ steps.release.outputs.artifact }}
-        run: |
-          npx -y @vscode/vsce publish -p "$VSCE_PAT" --packagePath "$VSIX"

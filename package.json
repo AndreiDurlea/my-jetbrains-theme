@@ -1,98 +1,19 @@
 {
-  "name": "deutherium",
+  "name": "deuterium-jetbrains",
   "displayName": "Deuterium",
-  "description": "Dark high-contrast themes modeled after JetBrains IDE color schemes, featuring Deuterium and Deuterium Lite with customizable accent colors.",
-  "version": "1.2.1",
-  "icon": "images/icon.png",
-  "publisher": "andreidurlea",
-  "main": "./dist/extension.js",
-  "activationEvents": [
-    "onStartupFinished"
-  ],
+  "description": "Dark UI themes and editor color schemes for JetBrains IDEs, ported from the Deuterium themes for VS Code.",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AndreiDurlea/my-vscode-theme.git"
+    "url": "https://github.com/AndreiDurlea/my-jetbrains-theme.git"
   },
   "engines": {
-    "vscode": "^1.75.0"
-  },
-  "categories": [
-    "Themes"
-  ],
-  "contributes": {
-    "themes": [
-      {
-        "label": "Deuterium",
-        "uiTheme": "vs-dark",
-        "path": "./themes/deuterium-color-theme.json"
-      },
-      {
-        "label": "Deuterium Lite",
-        "uiTheme": "vs-dark",
-        "path": "./themes/deuterium-lite-color-theme.json"
-      }
-    ],
-    "commands": [
-      {
-        "command": "deuterium.selectAccentColor",
-        "title": "Select Accent Color",
-        "category": "Deuterium"
-      },
-      {
-        "command": "deuterium.reload",
-        "title": "Reload Window",
-        "category": "Deuterium"
-      }
-    ],
-    "configuration": {
-      "title": "Deuterium Theme",
-      "properties": {
-        "deuterium.accentColor": {
-          "type": "string",
-          "default": "infrared",
-          "enum": [
-            "infrared",
-            "limelight",
-            "silverstone",
-            "papaya",
-            "ultraviolet",
-            "custom"
-          ],
-          "enumDescriptions": [
-            "Infrared (#f57385 - Light red / coral accent, default for Deuterium)",
-            "Limelight (#abf29d - Light green accent, default for Deuterium Lite)",
-            "Silverstone (#e6ffff - Cool icy silverstone accent)",
-            "Papaya (#ffc629 - Warm papaya golden-orange accent)",
-            "Ultraviolet (#d3baff - Soft ultraviolet purple accent)",
-            "Custom Hex Color"
-          ],
-          "description": "Accent color for Deuterium syntax highlighting and highlights."
-        },
-        "deuterium.customAccentColor": {
-          "type": "string",
-          "default": "#f57385",
-          "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$",
-          "description": "Custom hex color code when accentColor is set to 'custom' (e.g. #f57385 or #abf29d)."
-        }
-      }
-    },
-    "configurationDefaults": {
-      "editor.fontFamily": "'JetBrains Mono', 'Fira Code', Consolas, Menlo, Monaco, 'Courier New', monospace",
-      "editor.bracketPairColorization.enabled": false
-    }
+    "node": ">=20"
   },
   "scripts": {
-    "build": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node --minify",
-    "watch": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node --watch",
-    "vscode:prepublish": "npm run build",
-    "package": "vsce package",
-    "publish": "vsce publish"
-  },
-  "devDependencies": {
-    "@types/node": "^22.0.0",
-    "@types/vscode": "^1.75.0",
-    "@vscode/vsce": "^2.19.0",
-    "esbuild": "^0.24.0",
-    "typescript": "^5.6.0"
+    "generate": "node scripts/generate.mjs",
+    "package": "node scripts/generate.mjs && node scripts/package.mjs"
   }
 }
