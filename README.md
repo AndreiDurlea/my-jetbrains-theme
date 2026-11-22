@@ -78,7 +78,7 @@ npm run package
 | `npm run generate` | Writes `resources/META-INF/plugin.xml`, `resources/themes/*.theme.json` and `resources/colors/*.xml`. |
 | `npm run package` | Runs `generate`, then zips `resources/` into `dist/deuterium-<version>.jar` with the `zip` CLI. |
 
-The version in `plugin.xml` comes from `package.json`. Pushing to `main` runs the release workflow, which bumps the patch version, builds the JAR and attaches it to a GitHub release.
+The version in `plugin.xml` comes from `package.json`. Pushing to `main` runs the release workflow, which bumps the patch version, builds the JAR and attaches it to a GitHub release. When the `JETBRAINS_MARKETPLACE_TOKEN` repository secret is set, the workflow also uploads the JAR to the JetBrains Marketplace as an update to `com.andreidurlea.deuterium`.
 
 | Path | Contents |
 | :- | :- |

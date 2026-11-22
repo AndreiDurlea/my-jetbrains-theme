@@ -50,3 +50,16 @@ jobs:
           package-files: 'dist/*.jar'
           title: 'Deuterium for JetBrains IDEs'
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to JetBrains Marketplace
+        if: steps.release.outputs.should_release == 'true' && env.JETBRAINS_MARKETPLACE_TOKEN != ''
+        continue-on-error: true
+        env:
+          JETBRAINS_MARKETPLACE_TOKEN: ${{ secrets.JETBRAINS_MARKETPLACE_TOKEN }}
+          JAR: ${{ steps.release.outputs.artifact }}
+        run: |
+          curl --fail-with-body -sS \
+            --header "Authorization: Bearer $JETBRAINS_MARKETPLACE_TOKEN" \
+            -F xmlId=com.andreidurlea.deuterium \
+            -F file=@"$JAR" \
+            https://plugins.jetbrains.com/api/updates/upload
