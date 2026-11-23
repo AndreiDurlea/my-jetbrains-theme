@@ -51,6 +51,13 @@ jobs:
           title: 'Deuterium for JetBrains IDEs'
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Publish Plugin Update Feed
+        if: steps.release.outputs.should_release == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.release.outputs.tag }}
+        run: gh release upload "$TAG" dist/updatePlugins.xml --clobber
+
       - name: Publish to JetBrains Marketplace
         if: steps.release.outputs.should_release == 'true' && env.JETBRAINS_MARKETPLACE_TOKEN != ''
         continue-on-error: true

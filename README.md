@@ -10,6 +10,7 @@ Install the plugin using one of the following methods:
 
 - Install [Deuterium from the JetBrains Marketplace](https://plugins.jetbrains.com/plugin/36393-deuterium), or search for `Deuterium` in `Ctrl+Alt+S` > `Plugins` > `Marketplace`.
 - Download `deuterium-<version>.jar` from the GitHub release and install via `Ctrl+Alt+S` > `Plugins` > gear icon > `Install Plugin from Disk...`.
+- Add `https://github.com/AndreiDurlea/my-jetbrains-theme/releases/latest/download/updatePlugins.xml` via `Ctrl+Alt+S` > `Plugins` > gear icon > `Manage Plugin Repositories...`. The IDE then offers each GitHub release as an update, including releases still in Marketplace review.
 
 Deuterium is also published for Visual Studio Code:
 
@@ -74,9 +75,9 @@ npm run package
 | Command | Output |
 | :- | :- |
 | `npm run generate` | Writes `resources/META-INF/plugin.xml`, `resources/themes/*.theme.json` and `resources/colors/*.xml`. |
-| `npm run package` | Runs `generate`, then zips `resources/` into `dist/deuterium-<version>.jar` with the `zip` CLI. |
+| `npm run package` | Runs `generate`, zips `resources/` into `dist/deuterium-<version>.jar` with the `zip` CLI, and writes the custom plugin repository file `dist/updatePlugins.xml`. |
 
-The version in `plugin.xml` comes from `package.json`. Pushing to `main` runs the release workflow, which bumps the patch version, builds the JAR and attaches it to a GitHub release. When the `JETBRAINS_MARKETPLACE_TOKEN` repository secret is set, the workflow also uploads the JAR to the JetBrains Marketplace as an update to `com.andreidurlea.deuterium`.
+The version in `plugin.xml` comes from `package.json`. Pushing to `main` runs the release workflow, which bumps the patch version, builds the JAR and attaches it and `updatePlugins.xml` to a GitHub release. When the `JETBRAINS_MARKETPLACE_TOKEN` repository secret is set, the workflow also uploads the JAR to the JetBrains Marketplace as an update to `com.andreidurlea.deuterium`.
 
 | Path | Contents |
 | :- | :- |
