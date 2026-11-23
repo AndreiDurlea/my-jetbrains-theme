@@ -248,7 +248,7 @@ export function editorScheme(variant) {
     [['LOGCAT_FILTER_KEY', 'LOGCAT_FILTER_KVALUE', 'LOGCAT_FILTER_STRING_KVALUE', 'LOGCAT_FILTER_REGEX_KVALUE'], { fg: ui.foreground, bg: ui.selection }],
   ]
 
-  const lotus = lotusAttributes()
+  const lotus = withDeuteriumKeywords(lotusAttributes(), s.keyword)
   const like = key => lotus.get(key)
 
   // Keys Lotus Dark leaves unset but Darcula colors explicitly; without these, Darcula's palette
@@ -296,6 +296,18 @@ export function editorScheme(variant) {
   ]
 
   return { name: variant.name, colors, attributes }
+}
+
+// Lotus draws keywords in italic pinks; Deuterium keeps its own upright keyword red.
+const LOTUS_PINKS = new Set(['#ff6188', '#ff4c8f'])
+
+function withDeuteriumKeywords(attributes, keyword) {
+  for (const [key, style] of attributes) {
+    if (LOTUS_PINKS.has(style.fg)) style.fg = keyword
+    if (key.includes('KEYWORD') && style.font === ITALIC) style.font = undefined
+    if (key.includes('KEYWORD') && style.font === BOLD_ITALIC) style.font = BOLD
+  }
+  return attributes
 }
 
 function lotusAttributes() {

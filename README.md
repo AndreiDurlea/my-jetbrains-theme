@@ -1,9 +1,5 @@
 # Deuterium Color Themes for JetBrains
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](./package.json)
-[![Platform](https://img.shields.io/badge/platform-JetBrains%20IDEs-brightgreen.svg)]()
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
-
 Dark UI themes and editor color schemes for JetBrains IDEs on the Islands UI, including IntelliJ IDEA, Android Studio, PyCharm, WebStorm, CLion, Rider, and GoLand. The plugin requires build 253 (2025.3) or later.
 
 ---
@@ -12,10 +8,10 @@ Dark UI themes and editor color schemes for JetBrains IDEs on the Islands UI, in
 
 Install the plugin using one of the following methods:
 
-- Search for `Deuterium` directly within the IDE plugins marketplace via `Ctrl+Alt+S` > `Plugins` > `Marketplace`.
+- Install [Deuterium from the JetBrains Marketplace](https://plugins.jetbrains.com/plugin/36393-deuterium), or search for `Deuterium` in `Ctrl+Alt+S` > `Plugins` > `Marketplace`.
 - Download `deuterium-<version>.jar` from the GitHub release and install via `Ctrl+Alt+S` > `Plugins` > gear icon > `Install Plugin from Disk...`.
 
-Deuterium is also published for Visual Studio Code and Antigravity IDE:
+Deuterium is also published for Visual Studio Code:
 
 - [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=andreidurlea.deutherium)
 - [Open VSX Registry](https://open-vsx.org/extension/andreidurlea/deutherium)
@@ -29,10 +25,10 @@ Each theme pairs a UI theme (`themes/*.theme.json`, parent `Islands Dark`) with 
 
 | Theme | Theme ID | Editor background | Window frame | Accent |
 | :- | :- | :- | :- | :- |
-| Deuterium | `andreidurlea.deuterium` | `#0d0d0d` | `#1c1c1c` | Infrared `#ff4e32` |
-| Deuterium Lite | `andreidurlea.deuterium-lite` | `#141414` | `#232323` | Limelight `#edf77a` |
+| Deuterium | `andreidurlea.deuterium` | `#141414` | `#232323` | Limelight `#edf77a` |
+| Deuterium Classic | `andreidurlea.deuterium-classic` | `#0d0d0d` | `#1c1c1c` | Infrared `#ff4e32` |
 
-The UI theme overrides the Islands Dark color tokens (`layer-*`, `text-*`, `accent-brand-*`, `selection-*`, `tab-*`) and sets 151 UI keys directly. The accent colors default buttons, toggles, progress bars, live templates and the modified-tab marker.
+The UI theme overrides the Islands Dark color tokens (`layer-*`, `text-*`, `accent-brand-*`, `selection-*`, `tab-*`) and sets 153 UI keys directly. The accent colors default buttons, toggles, progress bars, live templates and the modified-tab marker.
 
 ---
 
@@ -42,7 +38,7 @@ Syntax attributes come from Lotus Dark (Classic) by Brian Lai, used under the MI
 
 | Role | Color | Attribute keys |
 | :- | :- | :- |
-| Keyword | `#ff4c8f` italic, `#ff6188` italic in Java and Kotlin | `DEFAULT_KEYWORD`, `JAVA_KEYWORD` |
+| Keyword | `#f57385` | `DEFAULT_KEYWORD`, `JAVA_KEYWORD` |
 | String | `#fff48a` | `DEFAULT_STRING` |
 | Number | `#c994ff` | `DEFAULT_NUMBER` |
 | Class and object, declaration and reference in Java and Kotlin | `#33f3ff` | `DEFAULT_CLASS_NAME`, `KOTLIN_CLASS`, `KOTLIN_OBJECT` |
@@ -57,7 +53,9 @@ Syntax attributes come from Lotus Dark (Classic) by Brian Lai, used under the MI
 | Punctuation | `#939293` | `DEFAULT_PARENTHS`, `DEFAULT_BRACES`, `DEFAULT_COMMA` |
 | Comment | `#727072` italic | `DEFAULT_LINE_COMMENT`, `DEFAULT_BLOCK_COMMENT` |
 
-The scheme keeps 370 of the 434 Lotus attributes unchanged. The other 64 are editor chrome (diagnostics, search results, diff, console, breadcrumbs, inlay hints, debugger), which use Deuterium colors from `src/scheme.mjs`. That file also sets 46 syntax keys that Lotus leaves unset, so no Darcula syntax color shows between Lotus colors.
+The scheme keeps 347 of the 434 Lotus attributes unchanged. 64 are editor chrome (diagnostics, search results, diff, console, breadcrumbs, inlay hints, debugger), which use Deuterium colors from `src/scheme.mjs`. In the remaining 22, the Lotus keyword colors `#ff6188` and `#ff4c8f` become the Deuterium keyword red `#f57385`, and keyword attributes lose the Lotus italics.
+
+`src/scheme.mjs` also sets 46 syntax keys that Lotus leaves unset, so no Darcula syntax color shows between Lotus colors.
 
 ---
 
@@ -92,15 +90,15 @@ The version in `plugin.xml` comes from `package.json`. Pushing to `main` runs th
 
 ## Previews
 
-### Deuterium (Classic)
+### Deuterium
 
 ![Deuterium](./images/deuterium-preview.png)
 
 ---
 
-### Deuterium Lite
+### Deuterium Classic
 
-![Deuterium Lite](./images/deuterium-lite-preview.png)
+![Deuterium Classic](./images/deuterium-classic-preview.png)
 
 ---
 
@@ -108,6 +106,6 @@ The version in `plugin.xml` comes from `package.json`. Pushing to `main` runs th
 
 1. Open settings using `Ctrl+Alt+S` (or `Cmd+,` on macOS).
 2. Navigate to `Appearance & Behavior` > `Appearance`.
-3. Select `Deuterium` or `Deuterium Lite` from the `Theme` dropdown menu.
+3. Select `Deuterium` or `Deuterium Classic` from the `Theme` dropdown menu.
 
 Selecting a theme also selects its editor color scheme. For typography matching the intended design palette, use the [JetBrains Mono](https://www.jetbrains.com/lp/mono/) font.

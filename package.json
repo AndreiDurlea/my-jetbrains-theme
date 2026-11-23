@@ -2,7 +2,7 @@
   "name": "deuterium-jetbrains",
   "displayName": "Deuterium",
   "description": "Dark UI themes and editor color schemes for JetBrains IDEs, ported from the Deuterium themes for VS Code.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "type": "module",
   "repository": {

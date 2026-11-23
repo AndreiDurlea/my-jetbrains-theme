@@ -139,7 +139,7 @@ export function uiTheme(variant) {
         modifiedItemForeground: variant.accent,
       },
       MainWindow: { background: frame },
-      MainToolbar: { background: frame, inactiveBackground: frame },
+      MainToolbar: { background: frame, inactiveBackground: frame, Icon: { background: frame } },
       TitlePane: { background: frame, inactiveBackground: frame },
       StatusBar: {
         background: frame,
@@ -150,6 +150,7 @@ export function uiTheme(variant) {
       ToolWindow: {
         background: bg,
         Header: { background: bg, inactiveBackground: bg },
+        Stripe: { background: frame },
         Button: { selectedBackground: ui.selection, selectedForeground: '#ffffff' },
       },
       ActionButton: { focusedBorderColor: ui.focus },
