@@ -1,6 +1,6 @@
 # Deuterium Color Themes for JetBrains
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](./package.json)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](./package.json)
 [![Platform](https://img.shields.io/badge/platform-JetBrains%20IDEs-brightgreen.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 

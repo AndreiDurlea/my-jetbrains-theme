@@ -35,12 +35,12 @@ writeFileSync(join(out, 'META-INF', 'plugin.xml'), `<idea-plugin>
   <vendor url="https://github.com/AndreiDurlea/my-jetbrains-theme">Andrei Durlea</vendor>
   <idea-version since-build="${SINCE_BUILD}" />
   <description><![CDATA[
-    <p>Dark UI themes on the Islands UI with the backgrounds and accents of the Deuterium themes for VS Code.</p>
+    <p>Two dark UI themes for the Islands UI, each with an editor color scheme of the same name, using the backgrounds and accents of the Deuterium themes for VS Code.</p>
     <ul>
-      <li><b>Deuterium</b>: #0d0d0d editor background, Infrared (#ff4e32) accent.</li>
-      <li><b>Deuterium Lite</b>: #141414 editor background, Limelight (#edf77a) accent.</li>
+      <li>Deuterium uses a #0d0d0d editor background and the Infrared (#ff4e32) accent.</li>
+      <li>Deuterium Lite uses a #141414 editor background and the Limelight (#edf77a) accent.</li>
     </ul>
-    <p>Syntax colors follow Lotus Dark (Classic) by Brian Lai, used under the MIT License.</p>
+    <p>Syntax colors follow Lotus Dark (Classic) by Brian Lai, used under the MIT License. Select a theme in Settings, Appearance &amp; Behavior, Appearance, Theme; its editor color scheme is selected with it.</p>
   ]]></description>
   <depends>com.intellij.modules.platform</depends>
   <extensions defaultExtensionNs="com.intellij">
